@@ -1,1 +1,10 @@
-Login Page
+{% include 'base.html' %}
+
+{% block body %}
+
+<form method="POST" acton="">{% csrf_token %}
+	Username: <input type="text" name="username"><br><br>
+	Password: <input type="password" name="password"><br><br>
+	<input type="submit" name="Submit">
+</form>
+{% endblock %}
