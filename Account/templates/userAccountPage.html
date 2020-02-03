@@ -48,12 +48,20 @@
 <br><br><br><br>
 <div class="container mx-5">
 {% for qs in querySet %}
-  <img src="{{ qs.user.userprofile.profilePic.url }}" id="profilePostImage">
-  <p><b>{{ qs.user }}</b>:{{ qs.content }}</p><br>
-	{% if qs.image %}
-	<img src="{{ qs.image.url }}" class="post_image" alt="">
-	{% endif %}
-{% endfor %}
+	
+		<div class="card w-75 mx-3 my-4">
+		  <div class="card-body">
+		  	<a href="account/{{ qs.user }}">
+		  	<img src="{{ qs.user.userprofile.profilePic.url }}" id="profilePostImage" class="rounded-circle">
+		    <h5 class="card-title">{{ qs.user }}</h5></a>
+		    <p class="card-text"><b>{{ qs.content }}</b></p>
+		    	{% if qs.image %}
+				<img src="{{ qs.image.url }}" alt="" class="post_image"><br>
+				{% endif %}
+		    
+		  </div>
+		</div>
+	{% endfor %}
 </div>
 </div>
 <div class="col-sm-2" style="background-color:lavender;"></div>

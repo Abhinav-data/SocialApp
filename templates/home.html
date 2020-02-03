@@ -28,31 +28,54 @@
 {% endblock %}
 {% block body %}
 <div class="row">
-		<div class="col-sm-2" style="background-color:lavender;"></div>
-		<div class="col-sm-8" style="background-color:lavenderblush;">
-<div class="container mx-5 my-5">
-<form method="POST" action="/" enctype="multipart/form-data">{% csrf_token %}
-    <br><p> <textarea name="content" cols="90" rows="5" maxlength="255" id="id_content" placeholder="  Tell us Something {{user.first_name}} {{ user.last_name}}"></textarea></p>
-		<p><label for="id_image">Image:</label> <input type="file" name="image" accept="image/*" id="id_image">
-<button type='submit' id="send-btn">Submit</button></p>
-  </form>
+		<div class="col-sm-2 " style="background-color:lavender;">
+			<div class="mx-5 my-3">
+				<h2>Friends</h2>
+			</div>
+			
+
+		</div>
+<div class="col-sm-8" style="background-color:lavenderblush;">
+	<div class="container mx-5 my-5">
+		<h3>Welome {{user.first_name}} {{ user.last_name}}</h3>
+	<form method="POST" action="/" enctype="multipart/form-data">{% csrf_token %}
+	    <br><p> <textarea name="content" cols="90" rows="5" maxlength="255" id="id_content" placeholder="  Tell us Something "></textarea></p>
+			<p><label for="id_image">Image:</label> <input type="file" name="image" accept="image/*" id="id_image">
+	<button type='submit' id="send-btn">Submit</button></p>
+	  </form>
+	</div>
+	<br>
+
+
+
+	<div class="container mx-5 my-2">
+
+	{% for qs in querySet %}
+	
+		<div class="card w-75 mx-3 my-4">
+		  <div class="card-body">
+		  	<a href="account/{{ qs.user }}">
+		  	<img src="{{ qs.user.userprofile.profilePic.url }}" id="profileImage" class="rounded-circle">
+		    <h5 class="card-title">{{ qs.user }}</h5></a>
+		    <p class="card-text"><b>{{ qs.content }}</b></p>
+		    	{% if qs.image %}
+				<img src="{{ qs.image.url }}" alt="" class="post_image"><br>
+				{% endif %}
+		    
+		  </div>
+		</div>
+	{% endfor %}
+	</div>
 </div>
-<br>
+<div class="col-sm-2" style="background-color:lavender;">
+	<div class="mx-5 my-3">
+		<h2>Users</h2><br>
 
-
-
-<div class="container mx-5 my-2">
-
-{% for qs in querySet %}
-<div class="mx-3 my-4">
-  <img src="{{ qs.user.userprofile.profilePic.url }}" id="profileImage" class="rounded-circle">
-  <p><b><a href="account/{{ qs.user }}">{{ qs.user }}</a></b>: {{ qs.content }}</p>
-	{% if qs.image %}
-	<img src="{{ qs.image.url }}" alt="" class="post_image"><br>
-	{% endif %}
-	</div><br>
-{% endfor %}
+		{% for user in users %}
+		{% ifnotequal user request.user  %}
+		<h5><a href="account/{{ user }}">{{user}}</a></h5>
+		{% endifnotequal %}
+		{% endfor %}
+	</div>
 </div>
-</div>
-<div class="col-sm-2" style="background-color:lavender;"></div>
 {% endblock %}
