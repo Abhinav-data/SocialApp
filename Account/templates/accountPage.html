@@ -1,13 +1,46 @@
 {% include 'base.html' %}
+{% include 'navbar.html' %}
+{% block head %}
+<style media="screen">
+	#profilePostImage{
+		float:left;
+		margin-right:10px;
+		width:30px;
+		height:30px;
+		border-radius:50%;
+	}
+		#profileImage{
+			float:left;
+			margin:20px;
+			width:200px;
+			height:200px;
+			border-radius:50%;
+		}
+		.container{
+			margin-left:0px;
+			margin-top:30px;
+		}
+</style>
+
+{% endblock %}
 
 {% block body %}
-<div class="container">
+<!-- <img src="{{ user.userprofile.profilePic.url }}" id="profileImage"> -->
+
+<div class="container" id="infoAccount">
+	<img src="{{ user.userprofile.profilePic.url }}" id="profileImage">
 	<h1>Profile</h1>
 	<h3>Username: {{user}}</h3>
 	<h3>First Name: {{user.first_name}}</h3>
 	<h3>Last Name: {{user.last_name}}</h3>
 	<h3>Email: {{user.email }}</h3>
-	<img src="{{ user.userprofile.profilePic.url }}">
-
 </div>
+<br>
+<div class="container">
+{% for qs in querySet %}
+  <img src="{{ qs.user.userprofile.profilePic.url }}" id="profilePostImage">
+  <p><b>{{ qs.user }}</b>:{{ qs.content }}</p><br>
+{% endfor %}
+</div>
+
 {% endblock %}

@@ -1,0 +1,34 @@
+{% include 'base.html' %}
+{% include 'navbar.html' %}
+{% block head %}
+<style media="screen">
+		#profileImage{
+			float:left;
+			margin-right:10px;
+			width:30px;
+			height:30px;
+			border-radius:50%;
+		}
+		.container{
+			margin-left:0px;
+			margin-top:30px;
+		}
+    .content{
+      float:right;
+    }
+</style>
+{% endblock %}
+{% block body %}
+<div class="container">
+<form method="POST" action="/" enctype="multipar/form-data">{% csrf_token %}
+    {{ form.as_p }}
+<button type='submit'>Send</button>
+  </form>
+</div><br><br><br>
+<div class="container">
+{% for qs in querySet %}
+  <img src="{{ qs.user.userprofile.profilePic.url }}" id="profileImage">
+  <p><b>{{ qs.user }}</b>:{{ qs.content }}</p><br>
+{% endfor %}
+</div>
+{% endblock %}

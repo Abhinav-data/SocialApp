@@ -1,0 +1,12 @@
+{% include 'base.html' %}
+{% include 'navbar.html' %}
+
+{% block body %}
+
+{% for qs in querySet %}
+  <h1>{{ qs.user }}</h1>
+  <h3>{{ qs.content }}</h3>
+
+{% endfor %}
+
+{% endblock %}
