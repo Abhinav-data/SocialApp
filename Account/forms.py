@@ -7,7 +7,7 @@ from Post.models import UserPOST
 
 class CreateUserForm(UserCreationForm):
 	email = forms.EmailField(required=True)
-	first_name = forms.CharField(max_length=30)
+	first_name = forms.CharField(max_length=30,required=True)
 	last_name = forms.CharField(max_length=30)
 
 	class Meta:

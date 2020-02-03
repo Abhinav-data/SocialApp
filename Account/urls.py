@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.accountPage,name='accountPage'),
+    path('<str:user>', views.userAccountPage,name='useraccountPage'),
     path('login/', views.loginPage,name='login'),
     path('register/', views.registerPage,name='register'),
     path('logout/', views.logoutUser,name='logout'),

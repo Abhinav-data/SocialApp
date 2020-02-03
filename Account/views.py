@@ -5,19 +5,34 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm,UserProfileForm
 from Post.models import UserPOST
-
+from .models import UserProfile
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.models import User
+
+
 
 def accountPage(request):
 	if request.user.is_authenticated:
 		username=request.user
 		qs=UserPOST.objects.filter(user__username=request.user)
-
 	else:
 		qs=""
 		return redirect('login')
 	context={'username':username,"querySet":qs}
 	return render(request,'accountPage.html',context)
+
+def userAccountPage(request,user):
+	if request.user.is_authenticated:
+		qsData1=UserProfile.objects.get(user__username=user)
+		qsData=User.objects.get(username=user)
+		print(qsData)
+		qs=UserPOST.objects.filter(user__username=user)
+	else:
+		qs=""
+		return redirect('login')
+	context={'qsD':qsData,'qsD1':qsData1,"querySet":qs}
+	return render(request,'userAccountPage.html',context)
+
 
 def loginPage(request):
 	if request.user.is_authenticated:
@@ -42,7 +57,6 @@ def registerPage(request):
 		if request.method=="POST":
 			form=CreateUserForm(request.POST)
 			profile_form=UserProfileForm(request.POST, request.FILES)
-			print(form.is_valid(),profile_form.is_valid())
 			if(form.is_valid() and profile_form.is_valid()):
 				user=form.save()
 				profile=profile_form.save(commit=False)

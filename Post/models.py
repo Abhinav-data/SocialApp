@@ -5,7 +5,7 @@ User=settings.AUTH_USER_MODEL
 
 class UserPOST(models.Model):
     user=models.ForeignKey(User,default=1,on_delete=models.CASCADE)
-    content=models.CharField(max_length=255, blank=True)
+    content=models.TextField(max_length=255, blank=True)
     image=models.ImageField(upload_to='post_image/',blank=True)
     timestamp=models.DateTimeField(auto_now_add=True)
 
