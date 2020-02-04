@@ -28,13 +28,13 @@
 {% endblock %}
 {% block body %}
 <div class="row">
-		<div class="col-sm-1 " style="background-color:lavenderblush;">
+		<div class="col-sm-1 " style="background-color:lavenderblush;" >
 			
 			
 
 		</div>
-<div class="col-sm-8" style="background-color:lavenderblush;">
-	<div class="container mx-3 my-5">
+<div class="col-sm-8"  style="background-color:lavenderblush;">
+	<div class="container mx-3 my-5" style="background-color:lavenderblush;">
 		<h3>Welome {{user.first_name}} {{ user.last_name}}</h3>
 	<form method="POST" action="/" enctype="multipart/form-data">{% csrf_token %}
 	    <br><p> <textarea name="content" cols="90" rows="5" maxlength="255" id="id_content" placeholder="  Tell us Something "></textarea></p>
@@ -49,8 +49,11 @@
 	<div class="container mx-3 my-2">
 
 	{% for qs in querySet %}
+
+
+		{% if qs.user in friends or qs.user == request.user %}
 	
-		<div class="card w-75 mx-1 my-4">
+		<div class="card w-75 mx-1 my-4" >
 		  <div class="card-body">
 		  	<a href="account/{{ qs.user }}">
 		  	<img src="{{ qs.user.userprofile.profilePic.url }}" id="profileImage" class="rounded-circle">
@@ -62,25 +65,27 @@
 		    
 		  </div>
 		</div>
+		{% endif %}
+	
 	{% endfor %}
 	</div>
 </div>
-<div class="col-sm-3" style="background-color:lavender;">
-	<div class="mx-5 my-3">
+<div class="col-sm-3"  style="background-color:lavenderblush;">
+	<div class="mx-5 my-5">
 		<h2>Users</h2>
 
 		{% for user in users %}
 		{% if not user in friends%}
 		<h5><a href="account/{{ user }}">{{user.username}}</a></h5>
 		<a href="account/{{ user }}/add">
-		<button type="button" class="btn btn-outline-success" href="google.com">Add</button></a>
+		<button type="button" class="btn btn-outline-success" href="google.com">Follow</button></a>
 		{% endif %}
 		
 		{% endfor %}
 	</div>
 	<br>
 	<div class="mx-5 my-3">
-				<h2>Friends</h2>
+				<h2>Following</h2>
 				{% for friend in friends %}
 					<h5><a href="account/{{ friend }}">{{friend.username}}</a></h5>
 					<a href="account/{{ friend }}/remove">
