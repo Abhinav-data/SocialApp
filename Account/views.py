@@ -8,6 +8,7 @@ from Post.models import UserPOST
 from .models import UserProfile
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
+from Friend.models import Friend
 
 
 
@@ -28,4 +29,17 @@ def userAccountPage(request,user):
 	qs=UserPOST.objects.filter(user__username=user)[::-1]
 	context={'qsD':qsData,'qsD1':qsData1,"querySet":qs}
 	return render(request,'userAccountPage.html',context)
+
+def changeFriends(request,user,verb):
+	new_friend=User.objects.get(username=user)
+	if(verb=="add"):
+		Friend.make_friend(request.user, new_friend)
+	elif verb=="remove":
+		Friend.lose_friend(request.user, new_friend)
+
+	return redirect('home')
+
+
+
+
 

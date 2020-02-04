@@ -23,4 +23,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.accountPage,name='accountPage'),
     path('<str:user>', views.userAccountPage,name='useraccountPage'),
+    path('<str:user>/<str:verb>', views.changeFriends,name='changeFriends'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
