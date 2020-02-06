@@ -10,7 +10,7 @@
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="account">Account</a>
+        <a class="nav-link" href="/account/{{request.user}}">Account</a>
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
@@ -21,7 +21,7 @@
           Hello, {{request.user}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/account">Profile</a>
+          <a class="dropdown-item" href="/account/{{request.user}}">Profile</a>
           <a class="dropdown-item" href="/logout">Logout</a>
         </div>
       </li>

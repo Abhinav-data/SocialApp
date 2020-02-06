@@ -22,24 +22,21 @@
     }
 		#send-btn{
 			float:right;
-			margin-right:230px;
+			margin-right:205px;
 		}
 </style>
 {% endblock %}
 {% block body %}
 <div class="row">
-		<div class="col-sm-1 " style="background-color:lavenderblush;" >
-			
-			
-
-		</div>
+		<div class="col-sm-1 " style="background-color:lavenderblush;" ></div>
 <div class="col-sm-8"  style="background-color:lavenderblush;">
 	<div class="container mx-3 my-5" style="background-color:lavenderblush;">
 		<h3>Welome {{user.first_name}} {{ user.last_name}}</h3>
 	<form method="POST" action="/" enctype="multipart/form-data">{% csrf_token %}
 	    <br><p> <textarea name="content" cols="90" rows="5" maxlength="255" id="id_content" placeholder="  Tell us Something "></textarea></p>
-			<p><label for="id_image">Image:</label> <input type="file" name="image" accept="image/*" id="id_image">
-	<button type='submit' id="send-btn">Submit</button></p>
+			<p><!-- <label for="id_image">Image:</label>  -->
+			<input type="file"  name="image" accept="image/*" id="id_image">
+	<button type='submit' class="btn btn-outline-primary" id="send-btn">Submit</button></p>
 	  </form>
 	</div>
 	<br>
@@ -49,8 +46,6 @@
 	<div class="container mx-3 my-2">
 
 	{% for qs in querySet %}
-
-
 		{% if qs.user in friends or qs.user == request.user %}
 	
 		<div class="card w-75 mx-1 my-4" >
@@ -59,40 +54,48 @@
 		  	<img src="{{ qs.user.userprofile.profilePic.url }}" id="profileImage" class="rounded-circle">
 		    <h5 class="card-title">{{ qs.user }}</h5></a>
 		    <p class="card-text"><b>{{ qs.content }}</b></p>
+		    	{% if not qs.content %}
+				<br>
+				{% endif %}
+
 		    	{% if qs.image %}
 				<img src="{{ qs.image.url }}" alt="" class="post_image"><br>
 				{% endif %}
-		    
+			<a href="post/{{ qs.slug }}">
+			<button type="button" class="btn btn-outline-primary content">Show More</button></a>
 		  </div>
 		</div>
 		{% endif %}
-	
+		
 	{% endfor %}
 	</div>
 </div>
-<div class="col-sm-3"  style="background-color:lavenderblush;">
+<div class="col-sm-3"  style="background-color:lavender;">
 	<div class="mx-5 my-5">
+		{% if friends|length != users|length %}
 		<h2>Users</h2>
-
 		{% for user in users %}
 		{% if not user in friends%}
 		<h5><a href="account/{{ user }}">{{user.username}}</a></h5>
 		<a href="account/{{ user }}/add">
-		<button type="button" class="btn btn-outline-success" href="google.com">Follow</button></a>
+		<button type="button" class="btn btn-outline-success " href="">Follow</button><hr></a>
 		{% endif %}
-		
+
 		{% endfor %}
+		{% endif %}	
 	</div>
 	<br>
 	<div class="mx-5 my-3">
+		{% if friends|length != 0 %}
 				<h2>Following</h2>
 				{% for friend in friends %}
 					<h5><a href="account/{{ friend }}">{{friend.username}}</a></h5>
 					<a href="account/{{ friend }}/remove">
-					<button type="button" class="btn btn-outline-secondary">Remove</button></a>
+					<button type="button" class="btn btn-outline-secondary">Remove</button><hr></a>
 					
 
 				{% endfor %}
+				{% endif %}
 	</div>
 </div>
 {% endblock %}

@@ -26,6 +26,7 @@ urlpatterns = [
     path('login/', views.loginPage,name='login'),
     path('register/', views.registerPage,name='register'),
     path('account/', include('Account.urls'),name='account'),
+    path('post/', include('Post.urls'),name='post'),
     # path('account/<str:user>', include('Account.urls'),name='account2'),
     path('logout/', views.logoutUser,name='logout'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

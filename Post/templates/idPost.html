@@ -1,0 +1,51 @@
+{% include 'base.html' %}
+{% include 'navbar.html' %}
+{% block head %}
+<style media="screen">
+	body{
+		background-color:lavenderblush;
+	}
+
+	.post_image{
+		display: block;
+	  max-width:500px;
+	  max-height:500px;
+	  width: auto;
+	  height: auto;
+
+	}
+	#profileImage{
+		float:left;
+		margin-right:10px;
+		width:50px;
+		height:50px;
+	}
+  
+</style>
+{% endblock %}
+{% block body %}
+<div class="row">
+<div class="col-sm-1 "></div>
+<div class="col-sm-8">
+<div class="card w-75 mx-1 my-4" >
+<div class="card-body">
+	<a href="account/{{ qs.user }}">
+	<img src="{{ post.user.userprofile.profilePic.url }}" id="profileImage" class="rounded-circle">
+<h5 class="card-title">{{ post.user }}</h5></a>
+<p class="card-text"><b>{{ post.content }}</b></p>
+	{% if post.image %}
+	<img src="{{ post.image.url }}" alt="" class="post_image"><br>
+	{% endif %}
+	{% if post.user == request.user or request.user.is_staff %}
+		<a href="{{ post.slug }}/update">
+		<button class="btn btn-primary">Update</button></a>
+		<a href="{{ post.slug }}/delete">
+		<button class="btn btn-danger">Delete</button></a>
+	
+	{% endif %}
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

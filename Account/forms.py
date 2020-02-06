@@ -8,7 +8,7 @@ from Post.models import UserPOST
 class CreateUserForm(UserCreationForm):
 	email = forms.EmailField(required=True)
 	first_name = forms.CharField(max_length=30,required=True)
-	last_name = forms.CharField(max_length=30)
+	last_name = forms.CharField(max_length=30,required=False)
 
 	class Meta:
 		model=User
@@ -24,6 +24,12 @@ class CreateUserForm(UserCreationForm):
 	    return user
 
 class UserProfileForm(forms.ModelForm):
+	class Meta:
+		model=UserProfile
+		fields=('profilePic',)
+		
+
+class UserProfileUpdateForm(forms.ModelForm):
 	class Meta:
 		model=UserProfile
 		fields=('profilePic',)

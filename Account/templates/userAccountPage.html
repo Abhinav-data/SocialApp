@@ -2,6 +2,9 @@
 {% include 'navbar.html' %}
 {% block head %}
 <style media="screen">
+	.content{
+      float:right;
+    }
 	.post_image{
 		display: block;
 		max-width:500px;
@@ -44,6 +47,12 @@
 	<h3>Username: {{qsD.username}}</h3>
 	<h3>Name: {{qsD.first_name}} {{qsD.last_name}}</h3>
 	<h3>Email: {{qsD.email }}</h3>
+	{% if qsD1.user == request.user %}
+		<a href="/account/{{ request.user }}/update">
+		<button type="button" class="btn btn-outline-secondary btn-lg content">Edit</button></a>
+	{% endif %}
+	
+
 </div>
 <br><br><br><br>
 <div class="container mx-5">
@@ -58,6 +67,9 @@
 		    	{% if qs.image %}
 				<img src="{{ qs.image.url }}" alt="" class="post_image"><br>
 				{% endif %}
+
+			<a href="/post/{{ qs.slug }}">
+			<button type="button" class="btn btn-outline-primary content">Show More</button></a>
 		    
 		  </div>
 		</div>

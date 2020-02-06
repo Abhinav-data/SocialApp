@@ -9,6 +9,7 @@ from Account.forms import CreateUserForm,UserProfileForm
 from Post.models import UserPOST
 from Account.models import UserProfile
 from Friend.models import Friend
+from django.http import HttpResponseRedirect
 
 @login_required(login_url='login')
 def home(request):
@@ -21,11 +22,16 @@ def home(request):
 
 	users = User.objects.exclude(id=request.user.id)
 	qs=UserPOST.objects.all()[::-1]
-	friend=Friend.objects.get(current_user=request.user)
-	friends=friend.users.all()
+	try:
+		friend=Friend.objects.get(current_user=request.user)
+		friends=friend.users.all()
 
-	context={"querySet":qs,"form":form,"users":users,'friends':friends}
-	return render(request,"home.html",context)
+		context={"querySet":qs,"form":form,"users":users,'friends':friends}
+		return render(request,"home.html",context)
+	except:
+		context={"querySet":qs,"form":form,"users":users}
+		return render(request,"home.html",context)
+
 
 def UserAccount(request):
 	if request.user.is_authenticated:
@@ -35,11 +41,11 @@ def UserAccount(request):
 		qs=""
 		return redirect('login')
 	context={'username':username,"querySet":qs}
-	return render(request,'accountPage.html',context)
+	return render(request,'userAccountPage.html',context)
 
 def loginPage(request):
 	if request.user.is_authenticated:
-		return redirect('accountPage')
+		return redirect('useraccountPage')
 	else:
 		if request.method=="POST":
 			username=request.POST.get('username')
@@ -48,18 +54,19 @@ def loginPage(request):
 			user=authenticate(request,username=username,password=password)
 			if user is not None:
 				login(request,user)
-				return redirect('accountPage')
+				return redirect('home')
 		context={}
 		return render(request,"loginPage.html",context)
 
 
 def registerPage(request):
 	if request.user.is_authenticated:
-		return redirect('accountPage')
+		return redirect('useraccountPage')
 	else:
 		if request.method=="POST":
 			form=CreateUserForm(request.POST)
 			profile_form=UserProfileForm(request.POST, request.FILES)
+			print(form.is_valid(),profile_form.is_valid())
 			if(form.is_valid() and profile_form.is_valid()):
 				user=form.save()
 				profile=profile_form.save(commit=False)
@@ -78,17 +85,3 @@ def logoutUser(request):
 	return redirect('login')
 
 
-# @login_required
-# def add_or_remove_friends(request, username, verb):
-#     n_f = get_object_or_404(User, username=username)
-#     owner = request.user.userprofile
-#     new_friend = UserProfile.objects.get(user=n_f)
-
-#     if verb == "add":
-#         new_friend.followers.add(owner)
-#         Friend.make_friend(owner, new_friend)
-#     else:
-#         new_friend.followers.remove(owner)
-#         Friend.remove_friend(owner, new_friend)
-
-#     return redirect('account')
